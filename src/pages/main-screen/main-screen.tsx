@@ -5,7 +5,7 @@ type MainScreenProps = {
   places: Place[];
   placesCount: number;
 }
-
+// hotfix
 function MainScreen(props: MainScreenProps): JSX.Element {
   return (
     <div className="page page--gray page--main">
