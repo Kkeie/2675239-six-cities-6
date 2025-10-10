@@ -16,7 +16,7 @@ function PlaceCard(props : PlaceCardProps): JSX.Element {
       <div className="cities__image-wrapper place-card__image-wrapper">
         <a href="#">
           <img className="place-card__image" src={props.imgSrc} width="260" height="200"
-               alt="Place image"
+            alt="Place image"
           />
         </a>
       </div>
