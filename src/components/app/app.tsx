@@ -1,19 +1,20 @@
 import MainScreen from '../../pages/main-screen/main-screen';
-import type {Place} from '../../types';
+import type {CityPlaces, Place} from '../../types';
 import {Route, BrowserRouter, Routes} from 'react-router-dom';
 import {AppRoute, AuthorizationStatus} from '../../const.ts';
 import LoginScreen from '../../pages/login-screen/login-screen.tsx';
 import FavoritesScreen from '../../pages/favorites-screen/favorites-screen.tsx';
 import OfferScreen from '../../pages/offer-screen/offer-screen.tsx';
-import NotFoundScreen from '../../pages/not_found_screen/not_found_screen.tsx';
-import PrivateRoute from '../private_route/private_route.tsx';
+import NotFoundScreen from '../../pages/not-found-screen/not-found-screen.tsx';
+import PrivateRoute from '../private-route/private-route.tsx';
 
 type AppProps = {
   placesCount: number;
   places: Place[];
+  cities: CityPlaces[];
 }
 
-const authStatus = AuthorizationStatus.NoAuth;
+const authStatus = AuthorizationStatus.Auth;
 
 function App(props: AppProps): JSX.Element {
   return (
@@ -31,7 +32,7 @@ function App(props: AppProps): JSX.Element {
           path={AppRoute.Favorites}
           element={
             <PrivateRoute authorizationStatus={authStatus}>
-              <FavoritesScreen />
+              <FavoritesScreen cities={props.cities}/>
             </PrivateRoute>
           }
         />
@@ -40,7 +41,7 @@ function App(props: AppProps): JSX.Element {
           element={<OfferScreen />}
         />
         <Route
-          path='*'
+          path={AppRoute.NotFound}
           element={<NotFoundScreen />}
         />
       </Routes>
