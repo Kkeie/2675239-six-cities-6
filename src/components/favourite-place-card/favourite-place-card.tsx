@@ -1,35 +1,30 @@
 import {Link} from 'react-router-dom';
 
-type PlaceCardProps = {
+type FavoritesPlaceCardProps = {
   id: string;
   title: string;
   previewImage: string;
   isPremium: boolean;
   isFavorite: boolean;
-  onMouseEnter: () => void;
-  onMouseLeave: () => void;
   price: number;
   type: string;
 }
 
-function PlaceCard(props : PlaceCardProps): JSX.Element {
+function FavoritesPlaceCard(props : FavoritesPlaceCardProps): JSX.Element {
   return (
-    <article className='cities__card place-card'
-      onMouseEnter={props.onMouseEnter}
-      onMouseLeave={props.onMouseLeave}
-    >
+    <article className='favorites__card place-card'>
       {props.isPremium &&
         <div className="place-card__mark">
           <span>Premium</span>
         </div>}
-      <div className="cities__image-wrapper place-card__image-wrapper">
+      <div className="favorites__image-wrapper place-card__image-wrapper">
         <Link to={`/offer/${props.id}`}>
           <img className="place-card__image" src={props.previewImage} width="260" height="200"
             alt="Place image"
           />
         </Link>
       </div>
-      <div className="place-card__info">
+      <div className="favorites__card-info place-card__info">
         <div className="place-card__price-wrapper">
           <div className="place-card__price">
             <b className="place-card__price-value">&euro;{props.price}</b>
@@ -57,5 +52,4 @@ function PlaceCard(props : PlaceCardProps): JSX.Element {
   );
 }
 
-export default PlaceCard;
-
+export default FavoritesPlaceCard;
