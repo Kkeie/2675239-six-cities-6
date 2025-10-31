@@ -1,11 +1,11 @@
-import FavoritePlaceList from '../list-of-favourite-places/list-of-favourite-places.tsx';
-import {Place} from '../../types';
+import {Offer} from '../../types/offer.ts';
+import FavoritesPlaceCard from '../favourite-place-card/favourite-place-card.tsx';
 
-type cityWithFavoritesProps = {
+type cityFavoritesProps = {
   city: string;
-  places: Place[];
+  places: Offer[];
 }
-function CityWithFavorites({city, places}: cityWithFavoritesProps): JSX.Element {
+function CityFavorites({city, places}: cityFavoritesProps): JSX.Element {
   return (
     <li className="favorites__locations-items">
       <div className="favorites__locations locations locations--current">
@@ -15,9 +15,22 @@ function CityWithFavorites({city, places}: cityWithFavoritesProps): JSX.Element 
           </a>
         </div>
       </div>
-      <FavoritePlaceList places={places}/>
+      <div className="favorites__places">
+        {places.map((place) => (
+          <FavoritesPlaceCard
+            id={place.id}
+            key={place.id}
+            previewImage={place.previewImage}
+            isPremium={place.isPremium}
+            isFavorite={place.isFavorite}
+            price={place.price}
+            title={place.title}
+            type={place.type}
+          />
+        ))}
+      </div>
     </li>
   );
 }
 
-export default CityWithFavorites;
+export default CityFavorites;
