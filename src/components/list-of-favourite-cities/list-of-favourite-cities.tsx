@@ -1,19 +1,36 @@
-import {CityPlaces} from '../../types';
-import CityWithFavorites from '../city-with-favourite/city-with-favourites.tsx';
+import {Offer} from '../../types/offer.ts';
+import FavoritesPlaceCard from '../favourite-place-card/favourite-place-card.tsx';
 
-type favoriteCityListProps = {
-  cities: CityPlaces[];
+type cityFavoritesProps = {
+  city: string;
+  places: Offer[];
 }
-
-function FavoriteCityList({cities} : favoriteCityListProps): JSX.Element {
+function CityFavorites({city, places}: cityFavoritesProps): JSX.Element {
   return (
-    <ul className="favorites__list">
-      {cities.map((city) => (
-        // eslint-disable-next-line react/jsx-key
-        <CityWithFavorites city={city.cityName} places={city.places}/>
-      ))}
-    </ul>
+    <li className="favorites__locations-items">
+      <div className="favorites__locations locations locations--current">
+        <div className="locations__item">
+          <a className="locations__item-link" href="#">
+            <span>{city}</span>
+          </a>
+        </div>
+      </div>
+      <div className="favorites__places">
+        {places.map((place) => (
+          <FavoritesPlaceCard
+            id={place.id}
+            key={place.id}
+            previewImage={place.previewImage}
+            isPremium={place.isPremium}
+            isFavorite={place.isFavorite}
+            price={place.price}
+            title={place.title}
+            type={place.type}
+          />
+        ))}
+      </div>
+    </li>
   );
 }
 
-export default FavoriteCityList;
+export default CityFavorites;

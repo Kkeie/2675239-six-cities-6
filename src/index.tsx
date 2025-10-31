@@ -1,13 +1,10 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import App from './components/app/app.tsx';
-import places from './mocks/offers.ts';
-import {favoriteCities} from './mocks/favourites.ts';
+import {Offers} from './mocks/offers.ts';
 
 const Setting = {
-  PlacesCount: 5,
-  Places: places,
-  CityList: favoriteCities
+  Places: Offers,
 } as const;
 
 const root = ReactDOM.createRoot(
@@ -16,6 +13,6 @@ const root = ReactDOM.createRoot(
 
 root.render(
   <React.StrictMode>
-    <App placesCount={Setting.PlacesCount} places={Setting.Places} cities={Setting.CityList} />
+    <App offers={Setting.Places}/>
   </React.StrictMode>
 );

@@ -1,9 +1,10 @@
 import ReviewForm from '../../components/form-review/form-review.tsx';
 import {Navigate} from 'react-router-dom';
-import {Offer} from '../../types/offer.ts';
+import Header from '../../components/header/header.tsx';
+import {InfoOfOffer} from '../../types/info-of-offer.ts';
 
 function OfferScreen(): JSX.Element {
-  const offer: Offer = {
+  const offer: InfoOfOffer = {
     id: '1',
     title: 'Cozy Apartment in the City Center',
     type: 'Apartment',
@@ -41,34 +42,7 @@ function OfferScreen(): JSX.Element {
   }
   return (
     <div className="page">
-      <header className="header">
-        <div className="container">
-          <div className="header__wrapper">
-            <div className="header__left">
-              <a className="header__logo-link" href="main.html">
-                <img className="header__logo" src="images/logo.svg" alt="6 cities logo" width="81" height="41"/>
-              </a>
-            </div>
-            <nav className="header__nav">
-              <ul className="header__nav-list">
-                <li className="header__nav-item user">
-                  <a className="header__nav-link header__nav-link--profile" href="#">
-                    <div className="header__avatar-wrapper user__avatar-wrapper">
-                    </div>
-                    <span className="header__user-name user__name">Oliver.conner@gmail.com</span>
-                    <span className="header__favorite-count">3</span>
-                  </a>
-                </li>
-                <li className="header__nav-item">
-                  <a className="header__nav-link" href="#">
-                    <span className="header__signout">Sign out</span>
-                  </a>
-                </li>
-              </ul>
-            </nav>
-          </div>
-        </div>
-      </header>
+      <Header isMain={false}/>
 
       <main className="page__main page__main--offer">
         <section className="offer">
@@ -170,7 +144,7 @@ function OfferScreen(): JSX.Element {
                   <li className="reviews__item">
                     <div className="reviews__user user">
                       <div className="reviews__avatar-wrapper user__avatar-wrapper">
-                        <img className="reviews__avatar user__avatar" src="images/avatar-max.jpg" width="54" height="54"
+                        <img className="reviews__avatar user__avatar" src="img/avatar-max.jpg" width="54" height="54"
                           alt="Reviews avatar"
                         />
                       </div>
@@ -207,7 +181,7 @@ function OfferScreen(): JSX.Element {
               <article className="near-places__card place-card">
                 <div className="near-places__image-wrapper place-card__image-wrapper">
                   <a href="#">
-                    <img className="place-card__image" src="images/room.jpg" width="260" height="200" alt="Place image"/>
+                    <img className="place-card__image" src="img/room.jpg" width="260" height="200" alt="Place image"/>
                   </a>
                 </div>
                 <div className="place-card__info">
@@ -241,7 +215,7 @@ function OfferScreen(): JSX.Element {
               <article className="near-places__card place-card">
                 <div className="near-places__image-wrapper place-card__image-wrapper">
                   <a href="#">
-                    <img className="place-card__image" src="images/apartment-02.jpg" width="260" height="200"
+                    <img className="place-card__image" src="img/apartment-02.jpg" width="260" height="200"
                       alt="Place image"
                     />
                   </a>
@@ -278,7 +252,7 @@ function OfferScreen(): JSX.Element {
                 </div>
                 <div className="near-places__image-wrapper place-card__image-wrapper">
                   <a href="#">
-                    <img className="place-card__image" src="images/apartment-03.jpg" width="260" height="200"
+                    <img className="place-card__image" src="img/apartment-03.jpg" width="260" height="200"
                       alt="Place image"
                     />
                   </a>
@@ -317,3 +291,4 @@ function OfferScreen(): JSX.Element {
 }
 
 export default OfferScreen;
+

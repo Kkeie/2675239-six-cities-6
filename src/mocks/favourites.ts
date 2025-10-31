@@ -47,18 +47,3 @@ export const favoritePlaces: Place[] = [
     type: 'Apartment',
   },
 ];
-
-export const favoriteCities = [
-  {
-    cityName: 'Moscow',
-    places: favoritePlaces
-  },
-  {
-    cityName: 'Astana',
-    places: favoritePlaces
-  },
-  {
-    cityName: 'Gonkong',
-    places: favoritePlaces
-  },
-];
