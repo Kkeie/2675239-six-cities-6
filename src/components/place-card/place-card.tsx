@@ -15,8 +15,8 @@ type PlaceCardProps = {
 function PlaceCard(props : PlaceCardProps): JSX.Element {
   return (
     <article className='cities__card place-card'
-             onMouseEnter={props.onMouseEnter}
-             onMouseLeave={props.onMouseLeave}
+      onMouseEnter={props.onMouseEnter}
+      onMouseLeave={props.onMouseLeave}
     >
       {props.isPremium &&
         <div className="place-card__mark">
@@ -25,7 +25,7 @@ function PlaceCard(props : PlaceCardProps): JSX.Element {
       <div className="cities__image-wrapper place-card__image-wrapper">
         <Link to={`/offer/${props.id}`}>
           <img className="place-card__image" src={props.previewImage} width="260" height="200"
-               alt="Place image"
+            alt="Place image"
           />
         </Link>
       </div>
