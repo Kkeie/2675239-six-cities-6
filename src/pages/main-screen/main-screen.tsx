@@ -1,9 +1,9 @@
 import PlaceCardList from '../../components/place-list/place-list.tsx';
-import {InfoOfOffer} from '../../types/info-of-offer.ts';
+import {Offer} from '../../types/offer.ts';
 import Header from '../../components/header/header.tsx';
 
 type MainScreenProps = {
-  offers: InfoOfOffer[];
+  offers: Offer[];
 }
 
 function MainScreen({offers}: MainScreenProps): JSX.Element {

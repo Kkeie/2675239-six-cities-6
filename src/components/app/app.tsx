@@ -6,10 +6,10 @@ import FavoritesScreen from '../../pages/favorites-screen/favorites-screen.tsx';
 import OfferScreen from '../../pages/offer-screen/offer-screen.tsx';
 import NotFoundScreen from '../../pages/not-found-screen/not-found-screen.tsx';
 import PrivateRoute from '../private-route/private-route.tsx';
-import {InfoOfOffer} from '../../types/info-of-offer.ts';
+import {Offer} from '../../types/offer.ts';
 
 type AppProps = {
-  offers: InfoOfOffer[];
+  offers: Offer[];
 }
 
 const authStatus = AuthorizationStatus.Auth;

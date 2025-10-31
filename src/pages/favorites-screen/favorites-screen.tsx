@@ -1,10 +1,10 @@
 import Favorites from '../../components/favourite/favourite.tsx';
-import {InfoOfOffer} from '../../types/info-of-offer.ts';
+import {Offer} from '../../types/offer.ts';
 import Footer from '../../components/fotter/fotter.tsx';
 import Header from '../../components/header/header.tsx';
 
 type FavoriteScreenProps = {
-  offers: InfoOfOffer[];
+  offers: Offer[];
 };
 
 function FavoritesScreen({offers} : FavoriteScreenProps): JSX.Element {
