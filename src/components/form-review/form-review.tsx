@@ -1,7 +1,7 @@
 import React from 'react';
 import {useState} from 'react';
 
-function ReviewForm() : JSX.Element {
+function FormReview() : JSX.Element {
   const [formData, setFormData] = useState({
     rating: 0,
     comment: '',
@@ -75,4 +75,4 @@ function ReviewForm() : JSX.Element {
   );
 }
 
-export default ReviewForm;
+export default FormReview;
