@@ -4,17 +4,19 @@ import {Offer} from '../../types/offer.ts';
 
 type placeListProps = {
   places: Offer[];
+  onListItemHover: (id: string) => void;
 }
 
-function PlaceList({places}: placeListProps) {
+function PlaceList({places, onListItemHover}: placeListProps) {
   const [, setActiveId] = useState<string | null>(null);
-
   const handleMouseEnter = (id: string) => {
     setActiveId(id);
+    onListItemHover(id);
   };
 
   const handleMouseLeave = () => {
     setActiveId(null);
+    onListItemHover('');
   };
 
   return (
@@ -39,4 +41,3 @@ function PlaceList({places}: placeListProps) {
 }
 
 export default PlaceList;
-
