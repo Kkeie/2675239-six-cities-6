@@ -1,13 +1,12 @@
-import FormReview from '../../components/form-review/form-review.tsx';
+import ReviewForm from '../../components/form-review/form-review.tsx';
 import {Navigate} from 'react-router-dom';
 import {InfoOfOffer} from '../../types/info-of-offer.ts';
 import Header from '../../components/header/header.tsx';
-import RevList from '../../components/rev-list/rev-list.tsx';
+import ReviewsList from '../../components/rev-list/rev-list.tsx';
 import Map from '../../components/map/map.tsx';
 import {Offers} from '../../mocks/offers.ts';
 import {useState} from 'react';
-import {Location} from '../../types/location.ts';
-import NearPlaces from '../../components/near-places/near-places.tsx';
+import NearbyPlacesList from '../../components/near-places/near-places.tsx';
 
 function OfferScreen(): JSX.Element {
   const offer: InfoOfOffer = {
@@ -80,14 +79,8 @@ function OfferScreen(): JSX.Element {
   ];
 
   const nearOffers = structuredClone(Offers).slice(0, 3);
-  const locations = nearOffers.map((i) => i.location);
 
-  const [selectedPoint, setSelectedPoint] = useState<Location | null>(null);
-
-  const handleListItemHover = (id: string) => {
-    const currentLocation = nearOffers.find((i) => i.id === id);
-    setSelectedPoint(currentLocation?.location ?? null);
-  };
+  const [activeId, setActiveId] = useState<string | null>(null);
 
   if (offer === null) {
     return <Navigate to="/404" />;
@@ -192,17 +185,17 @@ function OfferScreen(): JSX.Element {
               </div>
               <section className="offer__reviews reviews">
                 <h2 className="reviews__title">Reviews &middot; <span className="reviews__amount">{reviews.length}</span></h2>
-                <RevList reviews={reviews}/>
-                <FormReview/>
+                <ReviewsList reviews={reviews}/>
+                <ReviewForm />
               </section>
             </div>
           </div>
-          <Map locations={locations} city={offer.city.location} selectedPoint={selectedPoint} className="offer"/>
+          <Map activeId={activeId} className="offer"/>
         </section>
         <div className="container">
           <section className="near-places places">
             <h2 className="near-places__title">Other places in the neighbourhood</h2>
-            <NearPlaces places={nearOffers} onListItemHover={handleListItemHover}/>
+            <NearbyPlacesList places={nearOffers} onListItemHover={setActiveId}/>
           </section>
         </div>
       </main>

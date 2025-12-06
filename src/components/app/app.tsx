@@ -20,7 +20,7 @@ function App(props: AppProps): JSX.Element {
       <Routes>
         <Route
           path={AppRoute.Main}
-          element={<MainScreen offers={props.offers} />}
+          element={<MainScreen />}
         />
         <Route
           path={AppRoute.Login}
