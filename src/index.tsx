@@ -2,6 +2,8 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import App from './components/app/app.tsx';
 import {Offers} from './mocks/offers.ts';
+import {Provider} from 'react-redux';
+import {store} from './store';
 
 const Setting = {
   Places: Offers,
@@ -13,6 +15,8 @@ const root = ReactDOM.createRoot(
 
 root.render(
   <React.StrictMode>
-    <App offers={Setting.Places}/>
+    <Provider store={store}>
+      <App offers={Setting.Places}/>
+    </Provider>
   </React.StrictMode>
 );

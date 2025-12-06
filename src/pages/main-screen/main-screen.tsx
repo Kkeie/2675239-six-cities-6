@@ -1,23 +1,17 @@
 import PlaceCardList from '../../components/place-list/place-list.tsx';
-import {Offer} from '../../types/offer.ts';
 import Header from '../../components/header/header.tsx';
 import Map from '../../components/map/map.tsx';
 import {useState} from 'react';
-import {Location} from '../../types/location.ts';
+import CityList from '../../components/list-of-cities/list-of-cities.tsx';
+import Cities from '../../mocks/cities.ts';
+import {useAppSelector} from '../../hooks';
+import getPlacesLabel from '../../structure/get-places.ts';
 
-type MainScreenProps = {
-  offers: Offer[];
-}
 
-function MainScreen({offers}: MainScreenProps): JSX.Element {
-  const locations = offers.map((offer) => offer.location);
+function MainScreen(): JSX.Element {
+  const [activeId, setActiveId] = useState<string | null>(null);
 
-  const [selectedPoint, setSelectedPoint] = useState<Location | null>(null);
-
-  const handleListItemHover = (id: string) => {
-    const currentLocation = offers.find((offer) => offer.id === id);
-    setSelectedPoint(currentLocation?.location ?? null);
-  };
+  const currentCity = useAppSelector((state) => state);
 
   return (
     <div className="page page--gray page--main">
@@ -25,47 +19,12 @@ function MainScreen({offers}: MainScreenProps): JSX.Element {
 
       <main className="page__main page__main--index">
         <h1 className="visually-hidden">Cities</h1>
-        <div className="tabs">
-          <section className="locations container">
-            <ul className="locations__list tabs__list">
-              <li className="locations__item">
-                <a className="locations__item-link tabs__item" href="#">
-                  <span>Paris</span>
-                </a>
-              </li>
-              <li className="locations__item">
-                <a className="locations__item-link tabs__item" href="#">
-                  <span>Cologne</span>
-                </a>
-              </li>
-              <li className="locations__item">
-                <a className="locations__item-link tabs__item" href="#">
-                  <span>Brussels</span>
-                </a>
-              </li>
-              <li className="locations__item">
-                <a className="locations__item-link tabs__item tabs__item--active">
-                  <span>Amsterdam</span>
-                </a>
-              </li>
-              <li className="locations__item">
-                <a className="locations__item-link tabs__item" href="#">
-                  <span>Hamburg</span>
-                </a>
-              </li>
-              <li className="locations__item">
-                <a className="locations__item-link tabs__item" href="#">
-                  <span>Dusseldorf</span>
-                </a>
-              </li>
-            </ul>
-          </section>
-        </div>
+        <CityList cities={Cities}/>
         <div className="cities">
           <div className="cities__places-container container">
             <section className="cities__places places">
               <h2 className="visually-hidden">Places</h2>
-              <b className="places__found">312 places to stay in Amsterdam</b>
+              <b className="places__found">{getPlacesLabel(currentCity.places.length)} to stay in {currentCity.city.name}</b>
               <form className="places__sorting" action="#" method="get">
                 <span className="places__sorting-caption">Sort by</span>
                 <span className="places__sorting-type" tabIndex={0}>
@@ -81,10 +40,10 @@ function MainScreen({offers}: MainScreenProps): JSX.Element {
                   <li className="places__option" tabIndex={0}>Top rated first</li>
                 </ul>
               </form>
-              <PlaceCardList places={offers} onListItemHover={handleListItemHover} />
+              <PlaceCardList onListItemHover={setActiveId}/>
             </section>
             <div className="cities__right-section">
-              <Map locations={locations} city={offers[0].city.location} selectedPoint={selectedPoint} className={'cities'}/>
+              <Map activeId={activeId} className="cities"/>
             </div>
           </div>
         </div>

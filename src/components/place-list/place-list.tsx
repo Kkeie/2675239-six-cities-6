@@ -1,14 +1,15 @@
 import PlaceCard from '../place-card/place-card.tsx';
 import {useState} from 'react';
-import {Offer} from '../../types/offer.ts';
+import {useAppSelector} from '../../hooks';
 
 type placeListProps = {
-  places: Offer[];
   onListItemHover: (id: string) => void;
 }
 
-function PlaceList({places, onListItemHover}: placeListProps) {
+function PlaceList({onListItemHover}: placeListProps) {
   const [, setActiveId] = useState<string | null>(null);
+  const places = useAppSelector((state) => state.places);
+
   const handleMouseEnter = (id: string) => {
     setActiveId(id);
     onListItemHover(id);
@@ -34,7 +35,7 @@ function PlaceList({places, onListItemHover}: placeListProps) {
           type={place.type}
           onMouseEnter={() => handleMouseEnter(place.id)}
           onMouseLeave={handleMouseLeave}
-          nameOfClass={'cities__place-name'}
+          nameOfClass={'cities'}
         />
       ))}
     </div>

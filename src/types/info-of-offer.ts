@@ -1,15 +1,13 @@
 import {Location} from './location.ts';
 import {Host} from './host.ts';
+import {City} from './city.ts';
 
-export type InfoOfOffer = {
+export type OfferWithInfo = {
   id: string;
   title: string;
   type: string;
   price: number;
-  city: {
-    name: string;
-    location: Location;
-  };
+  city: City;
   location: Location;
   isFavorite: boolean;
   isPremium: boolean;
