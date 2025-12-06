@@ -1,18 +1,17 @@
 import ReviewForm from '../../components/form-review/form-review.tsx';
 import {Navigate} from 'react-router-dom';
-import {OfferWithInfo} from '../../types/info-of-offer.ts';
+import {InfoOfOffer} from '../../types/info-of-offer.ts';
 import Header from '../../components/header/header.tsx';
 import ReviewsList from '../../components/rev-list/rev-list.tsx';
 import Map from '../../components/map/map.tsx';
 import {Offers} from '../../mocks/offers.ts';
 import {useState} from 'react';
-import {Location} from '../../types/location.ts';
 import NearbyPlacesList from '../../components/near-places/near-places.tsx';
 
 function OfferScreen(): JSX.Element {
-  const offer: OfferWithInfo = {
+  const offer: InfoOfOffer = {
     id: '1',
-    title: 'Cozy Apartment in the City Center',
+    title: 'asdsaf',
     type: 'Apartment',
     price: 100,
     city: {
@@ -30,17 +29,17 @@ function OfferScreen(): JSX.Element {
     },
     isFavorite: true,
     isPremium: false,
-    rating: 4.5,
+    rating: 2,
     description: 'A cozy and modern apartment in the city center.',
     bedrooms: 2,
     goods: ['WiFi', 'Air conditioning', 'Parking'],
     host: {
-      name: 'John Doe',
+      name: 'bob',
       avatarUrl: 'img/avatar-angelina.jpg',
       isPro: true,
     },
     images: ['img/apartment-01.jpg', 'img/apartment-02.jpg', 'img/apartment-03.jpg'],
-    maxAdults: 4,
+    maxAdults: 3,
   };
 
   const reviews = [
@@ -48,7 +47,7 @@ function OfferScreen(): JSX.Element {
       id: 'b67ddfd5-b953-4a30-8c8d-bd083cd6b62a',
       date: '2019-05-08T14:13:56.569Z',
       user: {
-        name: 'Oliver Conner',
+        name: 'kennyS',
         avatarUrl: 'markup/img/avatar-max.jpg',
         isPro: false
       },
@@ -59,35 +58,29 @@ function OfferScreen(): JSX.Element {
       id: 'b67ddfd5-b953-2a50-8c8d-bd083cd6b62a',
       date: '2025-10-10T14:13:56.569Z',
       user: {
-        name: 'Egor Spitsyn',
+        name: 'biba',
         avatarUrl: 'markup/img/avatar.svg',
         isPro: false
       },
-      comment: 'В Кургане лучше конечно',
-      rating: 2
+      comment: 'blaahlbahablah best blahblahblahh',
+      rating: 4
     },
     {
       id: 'b67241fd5-b953-2a50-8c8d-bd083cd6b62a',
       date: '2025-10-10T14:13:56.569Z',
       user: {
-        name: 'Arseny Balin',
+        name: 'boba',
         avatarUrl: 'markup/img/avatar.svg',
         isPro: false
       },
-      comment: 'Не Курган, но достойно',
+      comment: 'blahbahbablab',
       rating: 5
     }
   ];
 
   const nearOffers = structuredClone(Offers).slice(0, 3);
-  const locations = nearOffers.map((i) => i.location);
 
-  const [selectedPoint, setSelectedPoint] = useState<Location | null>(null);
-
-  const handleListItemHover = (id: string) => {
-    const currentLocation = nearOffers.find((i) => i.id === id);
-    setSelectedPoint(currentLocation?.location ?? null);
-  };
+  const [activeId, setActiveId] = useState<string | null>(null);
 
   if (offer === null) {
     return <Navigate to="/404" />;
@@ -197,12 +190,12 @@ function OfferScreen(): JSX.Element {
               </section>
             </div>
           </div>
-          <Map locations={locations} city={offer.city.location} selectedPoint={selectedPoint} className="offer"/>
+          <Map activeId={activeId} className="offer"/>
         </section>
         <div className="container">
           <section className="near-places places">
             <h2 className="near-places__title">Other places in the neighbourhood</h2>
-            <NearbyPlacesList places={nearOffers} onListItemHover={handleListItemHover}/>
+            <NearbyPlacesList places={nearOffers} onListItemHover={setActiveId}/>
           </section>
         </div>
       </main>
