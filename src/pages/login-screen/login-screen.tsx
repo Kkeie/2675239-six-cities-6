@@ -1,10 +1,14 @@
 import LoginHeader from '../../components/header/login.tsx';
-import {useState, FormEvent} from 'react';
-import {useAppDispatch} from '../../hooks';
+import {useState, FormEvent, useEffect} from 'react';
+import {useAppDispatch, useAppSelector} from '../../hooks';
 import {loginAction} from '../../store/action.ts';
 import {useNavigate} from 'react-router-dom';
 import {AppRoute} from '../../const.ts';
 import {AxiosError} from 'axios';
+import {getAuthorizationStatus} from '../../store/selectors.ts';
+import {AuthorizationStatus} from '../../const.ts';
+import {Cities} from '../../const.ts';
+import {changeCityAction} from '../../store/action.ts';
 
 type ValidationErrorDetail = {
   property: string;
@@ -22,8 +26,21 @@ function LoginScreen(): JSX.Element {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState<string | null>(null);
+  const [randomCity] = useState(() => Cities[Math.floor(Math.random() * Cities.length)]);
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
+  const authorizationStatus = useAppSelector(getAuthorizationStatus);
+
+  useEffect(() => {
+    if (authorizationStatus === AuthorizationStatus.Auth) {
+      navigate(AppRoute.Main);
+    }
+  }, [authorizationStatus, navigate]);
+
+  const handleRandomCityClick = () => {
+    dispatch(changeCityAction(randomCity));
+    navigate(AppRoute.Main);
+  };
 
   const handleSubmit = (evt: FormEvent<HTMLFormElement>) => {
     evt.preventDefault();
@@ -98,8 +115,8 @@ function LoginScreen(): JSX.Element {
           </section>
           <section className="locations locations--login locations--current">
             <div className="locations__item">
-              <a className="locations__item-link" href="#">
-                <span>Amsterdam</span>
+              <a className="locations__item-link" href="#" onClick={(e) => { e.preventDefault(); handleRandomCityClick(); }}>
+                <span>{randomCity.name}</span>
               </a>
             </div>
           </section>

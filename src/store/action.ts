@@ -108,3 +108,28 @@ export const postCommentAction = createAsyncThunk<Rev, {offerId: string; comment
     return data;
   },
 );
+
+export const changeFavoriteStatusAction = createAsyncThunk<Offer, {offerId: string; isFavorite: boolean}, {
+  dispatch: AppDispatch;
+  state: State;
+  extra: AxiosInstance;
+}>(
+  'data/changeFavoriteStatus',
+  async ({offerId, isFavorite}, {dispatch, extra: api}) => {
+    const {data} = await api.post<Offer>(`/favorite/${offerId}/${isFavorite ? 1 : 0}`);
+    dispatch(fetchOffersAction());
+    return data;
+  },
+);
+
+export const fetchFavoriteOffersAction = createAsyncThunk<Offer[], undefined, {
+  dispatch: AppDispatch;
+  state: State;
+  extra: AxiosInstance;
+}>(
+  'data/fetchFavoriteOffers',
+  async (_arg, {extra: api}) => {
+    const {data} = await api.get<Offer[]>('/favorite');
+    return data;
+  },
+);
