@@ -41,7 +41,7 @@ function FormReview({offerId}: FormReviewProps) : JSX.Element {
 
   const handleSubmit = (evt: FormEvent<HTMLFormElement>) => {
     evt.preventDefault();
-    
+
     if (!isFormValid || isSubmitting) {
       return;
     }
