@@ -1,13 +1,11 @@
 import Favorites from '../../components/favourite/favourite.tsx';
-import {Offer} from '../../types/offer.ts';
 import Footer from '../../components/fotter/fotter.tsx';
 import Header from '../../components/header/header.tsx';
+import {useAppSelector} from '../../hooks';
 
-type FavoriteScreenProps = {
-  offers: Offer[];
-};
+function FavoritesScreen(): JSX.Element {
+  const offers = useAppSelector((state) => state.allOffers.filter((place) => place.isFavorite));
 
-function FavoritesScreen({offers} : FavoriteScreenProps): JSX.Element {
   return (
     <div className="page">
       <Header isMain={false}/>

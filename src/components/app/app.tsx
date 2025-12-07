@@ -6,15 +6,10 @@ import FavoritesScreen from '../../pages/favorites-screen/favorites-screen.tsx';
 import OfferScreen from '../../pages/offer-screen/offer-screen.tsx';
 import NotFoundScreen from '../../pages/not-found-screen/not-found-screen.tsx';
 import PrivateRoute from '../private-route/private-route.tsx';
-import {Offer} from '../../types/offer.ts';
-
-type AppProps = {
-  offers: Offer[];
-}
 
 const authStatus = AuthorizationStatus.Auth;
 
-function App(props: AppProps): JSX.Element {
+function App(): JSX.Element {
   return (
     <BrowserRouter>
       <Routes>
@@ -30,7 +25,7 @@ function App(props: AppProps): JSX.Element {
           path={AppRoute.Favorites}
           element={
             <PrivateRoute authorizationStatus={authStatus}>
-              <FavoritesScreen offers={props.offers}/>
+              <FavoritesScreen />
             </PrivateRoute>
           }
         />
