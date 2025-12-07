@@ -9,6 +9,8 @@ const Setting = {
   Places: Offers,
 } as const;
 
+export {};
+
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );

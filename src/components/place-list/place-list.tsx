@@ -14,7 +14,7 @@ function PlaceList({onListItemHover, sortType}: placeListProps) {
 
   const sortedPlaces = useMemo(() => {
     const placesCopy = [...places];
-    
+
     switch (sortType) {
       case 'Price: low to high':
         return placesCopy.sort((a, b) => a.price - b.price);
