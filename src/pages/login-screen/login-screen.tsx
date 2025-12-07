@@ -115,7 +115,10 @@ function LoginScreen(): JSX.Element {
           </section>
           <section className="locations locations--login locations--current">
             <div className="locations__item">
-              <a className="locations__item-link" href="#" onClick={(e) => { e.preventDefault(); handleRandomCityClick(); }}>
+              <a className="locations__item-link" href="#" onClick={(e) => {
+                e.preventDefault(); handleRandomCityClick();
+              }}
+              >
                 <span>{randomCity.name}</span>
               </a>
             </div>

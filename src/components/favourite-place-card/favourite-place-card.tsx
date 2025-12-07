@@ -22,7 +22,7 @@ function FavoritesPlaceCard(props : FavoritesPlaceCardProps): JSX.Element {
 
   const handleFavoriteClick = (evt: React.MouseEvent<HTMLButtonElement>) => {
     evt.preventDefault();
-    
+
     if (authorizationStatus !== AuthorizationStatus.Auth) {
       navigate(AppRoute.Login);
       return;
@@ -53,8 +53,8 @@ function FavoritesPlaceCard(props : FavoritesPlaceCardProps): JSX.Element {
             <b className="place-card__price-value">&euro;{props.price}</b>
             <span className="place-card__price-text">&#47;&nbsp;night</span>
           </div>
-          <button 
-            className={`place-card__bookmark-button${props.isFavorite ? ' place-card__bookmark-button--active' : ''} button`} 
+          <button
+            className={`place-card__bookmark-button${props.isFavorite ? ' place-card__bookmark-button--active' : ''} button`}
             type="button"
             onClick={handleFavoriteClick}
           >

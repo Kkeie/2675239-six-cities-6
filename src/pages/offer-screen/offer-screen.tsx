@@ -97,8 +97,8 @@ function OfferScreen(): JSX.Element {
                 <h1 className="offer__name">
                   {offer.title}
                 </h1>
-                <button 
-                  className={`offer__bookmark-button${offer.isFavorite ? ' offer__bookmark-button--active' : ''} button`} 
+                <button
+                  className={`offer__bookmark-button${offer.isFavorite ? ' offer__bookmark-button--active' : ''} button`}
                   type="button"
                   onClick={handleFavoriteClick}
                 >
@@ -176,8 +176,8 @@ function OfferScreen(): JSX.Element {
               </section>
             </div>
           </div>
-          <Map 
-            activeId={null} 
+          <Map
+            activeId={null}
             className="offer"
             locations={nearbyOffers.slice(0, 3).map((o) => o.location)}
             city={offer.city.location}
