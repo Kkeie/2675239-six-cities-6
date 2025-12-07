@@ -6,10 +6,12 @@ import CityList from '../../components/list-of-cities/list-of-cities.tsx';
 import Cities from '../../mocks/cities.ts';
 import {useAppSelector} from '../../hooks';
 import getPlacesLabel from '../../structure/get-places.ts';
+import SortOptions, {SortType} from '../../components/sort-options/sort-options.tsx';
 
 
 function MainScreen(): JSX.Element {
   const [activeId, setActiveId] = useState<string | null>(null);
+  const [currentSort, setCurrentSort] = useState<SortType>('Popular');
 
   const currentCity = useAppSelector((state) => state);
 
@@ -25,22 +27,8 @@ function MainScreen(): JSX.Element {
             <section className="cities__places places">
               <h2 className="visually-hidden">Places</h2>
               <b className="places__found">{getPlacesLabel(currentCity.places.length)} to stay in {currentCity.city.name}</b>
-              <form className="places__sorting" action="#" method="get">
-                <span className="places__sorting-caption">Sort by</span>
-                <span className="places__sorting-type" tabIndex={0}>
-                  Popular
-                  <svg className="places__sorting-arrow" width="7" height="4">
-                    <use xlinkHref="#icon-arrow-select"></use>
-                  </svg>
-                </span>
-                <ul className="places__options places__options--custom places__options--opened">
-                  <li className="places__option places__option--active" tabIndex={0}>Popular</li>
-                  <li className="places__option" tabIndex={0}>Price: low to high</li>
-                  <li className="places__option" tabIndex={0}>Price: high to low</li>
-                  <li className="places__option" tabIndex={0}>Top rated first</li>
-                </ul>
-              </form>
-              <PlaceCardList onListItemHover={setActiveId}/>
+              <SortOptions currentSort={currentSort} onSortChange={setCurrentSort}/>
+              <PlaceCardList onListItemHover={setActiveId} sortType={currentSort}/>
             </section>
             <div className="cities__right-section">
               <Map activeId={activeId} className="cities"/>

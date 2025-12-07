@@ -2,7 +2,7 @@ import leaflet from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import {useEffect, useRef} from 'react';
 import useMap from '../../hooks/use-map.ts';
-import {URL_MARKER_DEFAULT, URL_MARKER_CURRENT} from '../../const.ts';
+import {URL_MARKER_DEFAULT, URL_MARKER_ACTIVE} from '../../const.ts';
 import {useAppSelector} from '../../hooks';
 
 
@@ -22,14 +22,20 @@ function Map({activeId, className}: mapProps): JSX.Element {
     iconAnchor: [20, 40],
   });
 
-  const currentCustomIcon = leaflet.icon({
-    iconUrl: URL_MARKER_CURRENT,
+  const activeCustomIcon = leaflet.icon({
+    iconUrl: URL_MARKER_ACTIVE,
     iconSize: [40, 40],
     iconAnchor: [20, 40],
   });
 
   useEffect(() => {
     if (map) {
+      map.eachLayer((layer) => {
+        if (layer instanceof leaflet.Marker) {
+          map.removeLayer(layer);
+        }
+      });
+
       currentCity.places.forEach((offer) => {
         leaflet
           .marker({
@@ -37,13 +43,13 @@ function Map({activeId, className}: mapProps): JSX.Element {
             lng: offer.location.longitude,
           }, {
             icon: (offer.id === activeId)
-              ? currentCustomIcon
+              ? activeCustomIcon
               : defaultCustomIcon,
           })
           .addTo(map);
       });
     }
-  }, [map, defaultCustomIcon, currentCustomIcon, currentCity.places, activeId]);
+  }, [map, defaultCustomIcon, activeCustomIcon, currentCity.places, activeId]);
 
   return (
     <section className={`${className}__map`} ref={mapRef}></section>
@@ -51,3 +57,4 @@ function Map({activeId, className}: mapProps): JSX.Element {
 }
 
 export default Map;
+
