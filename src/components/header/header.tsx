@@ -1,11 +1,22 @@
-import {AppRoute} from '../../const.ts';
+import {AppRoute, AuthorizationStatus} from '../../const.ts';
 import {Link} from 'react-router-dom';
+import {useAppSelector, useAppDispatch} from '../../hooks';
+import {logoutAction} from '../../store/action.ts';
 
 type headerProps = {
   isMain: boolean;
 }
 
 function Header({isMain}: headerProps) : JSX.Element {
+  const authorizationStatus = useAppSelector((state) => state.authorizationStatus);
+  const user = useAppSelector((state) => state.user);
+  const favoriteCount = useAppSelector((state) => state.allOffers.filter((offer) => offer.isFavorite).length);
+  const dispatch = useAppDispatch();
+
+  const handleSignOut = () => {
+    dispatch(logoutAction());
+  };
+
   return (
     <header className="header">
       <div className="container">
@@ -17,19 +28,31 @@ function Header({isMain}: headerProps) : JSX.Element {
           </div>
           <nav className="header__nav">
             <ul className="header__nav-list">
-              <li className="header__nav-item user">
-                <a className="header__nav-link header__nav-link--profile" href="#">
-                  <div className="header__avatar-wrapper user__avatar-wrapper">
-                  </div>
-                  <span className="header__user-name user__name">Oliver.conner@gmail.com</span>
-                  <span className="header__favorite-count">3</span>
-                </a>
-              </li>
-              <li className="header__nav-item">
-                <a className="header__nav-link" href="#">
-                  <span className="header__signout">Sign out</span>
-                </a>
-              </li>
+              {authorizationStatus === AuthorizationStatus.Auth && user ? (
+                <>
+                  <li className="header__nav-item user">
+                    <Link className="header__nav-link header__nav-link--profile" to={AppRoute.Favorites}>
+                      <div className="header__avatar-wrapper user__avatar-wrapper">
+                      </div>
+                      <span className="header__user-name user__name">{user.email}</span>
+                      <span className="header__favorite-count">{favoriteCount}</span>
+                    </Link>
+                  </li>
+                  <li className="header__nav-item">
+                    <a className="header__nav-link" href="#" onClick={handleSignOut}>
+                      <span className="header__signout">Sign out</span>
+                    </a>
+                  </li>
+                </>
+              ) : (
+                <li className="header__nav-item user">
+                  <Link className="header__nav-link header__nav-link--profile" to={AppRoute.Login}>
+                    <div className="header__avatar-wrapper user__avatar-wrapper">
+                    </div>
+                    <span className="header__login">Sign in</span>
+                  </Link>
+                </li>
+              )}
             </ul>
           </nav>
         </div>

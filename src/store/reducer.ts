@@ -1,13 +1,18 @@
 import { createReducer } from '@reduxjs/toolkit';
-import {changeCityAction, fillPlacesAction, fetchOffersAction} from './action.ts';
+import {changeCityAction, fillPlacesAction, fetchOffersAction, requireAuthorizationAction, setUserAction, loginAction, checkAuthAction, logoutAction} from './action.ts';
 import {Offer} from '../types/offer.ts';
 import { City } from '../types/city.ts';
+import {AuthorizationStatus} from '../const.ts';
+import {AuthInfo} from '../types/auth.ts';
+import {saveToken, dropToken} from '../services/api.ts';
 
 type stateCityProps = {
   city: City;
   places: Offer[];
   allOffers: Offer[];
   isLoading: boolean;
+  authorizationStatus: AuthorizationStatus;
+  user: AuthInfo | null;
 }
 
 const stateCity: stateCityProps = {
@@ -22,6 +27,8 @@ const stateCity: stateCityProps = {
   places: [],
   allOffers: [],
   isLoading: false,
+  authorizationStatus: AuthorizationStatus.Unknown,
+  user: null,
 };
 
 export const reducer = createReducer(stateCity, (builder) => {
@@ -43,5 +50,31 @@ export const reducer = createReducer(stateCity, (builder) => {
     })
     .addCase(fetchOffersAction.rejected, (state) => {
       state.isLoading = false;
+    })
+    .addCase(requireAuthorizationAction, (state, action) => {
+      state.authorizationStatus = action.payload;
+    })
+    .addCase(setUserAction, (state, action) => {
+      state.user = action.payload;
+    })
+    .addCase(checkAuthAction.fulfilled, (state, action) => {
+      state.user = action.payload;
+      state.authorizationStatus = AuthorizationStatus.Auth;
+    })
+    .addCase(checkAuthAction.rejected, (state) => {
+      state.authorizationStatus = AuthorizationStatus.NoAuth;
+    })
+    .addCase(loginAction.fulfilled, (state, action) => {
+      saveToken(action.payload.token);
+      state.user = action.payload;
+      state.authorizationStatus = AuthorizationStatus.Auth;
+    })
+    .addCase(loginAction.rejected, (state) => {
+      state.authorizationStatus = AuthorizationStatus.NoAuth;
+    })
+    .addCase(logoutAction, (state) => {
+      dropToken();
+      state.user = null;
+      state.authorizationStatus = AuthorizationStatus.NoAuth;
     });
 });

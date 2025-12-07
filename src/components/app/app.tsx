@@ -1,13 +1,11 @@
 import MainScreen from '../../pages/main-screen/main-screen';
 import {Route, BrowserRouter, Routes} from 'react-router-dom';
-import {AppRoute, AuthorizationStatus} from '../../const.ts';
+import {AppRoute} from '../../const.ts';
 import LoginScreen from '../../pages/login-screen/login-screen.tsx';
 import FavoritesScreen from '../../pages/favorites-screen/favorites-screen.tsx';
 import OfferScreen from '../../pages/offer-screen/offer-screen.tsx';
 import NotFoundScreen from '../../pages/not-found-screen/not-found-screen.tsx';
 import PrivateRoute from '../private-route/private-route.tsx';
-
-const authStatus = AuthorizationStatus.Auth;
 
 function App(): JSX.Element {
   return (
@@ -24,7 +22,7 @@ function App(): JSX.Element {
         <Route
           path={AppRoute.Favorites}
           element={
-            <PrivateRoute authorizationStatus={authStatus}>
+            <PrivateRoute>
               <FavoritesScreen />
             </PrivateRoute>
           }
