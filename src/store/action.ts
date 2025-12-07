@@ -52,6 +52,8 @@ export const loginAction = createAsyncThunk<AuthInfo, LoginData, {
   'user/login',
   async ({email, password}, {extra: api}) => {
     const {data} = await api.post<AuthInfo>('/login', {email, password});
+    const {saveToken} = await import('../services/api.ts');
+    saveToken(data.token);
     return data;
   },
 );

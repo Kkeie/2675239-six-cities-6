@@ -1,4 +1,4 @@
-import {useState, useEffect, useRef} from 'react';
+import {useState, useEffect, useRef, memo, useCallback, useMemo} from 'react';
 
 export type SortType = 'Popular' | 'Price: low to high' | 'Price: high to low' | 'Top rated first';
 
@@ -7,11 +7,11 @@ type SortOptionsProps = {
   onSortChange: (sort: SortType) => void;
 }
 
-function SortOptions({currentSort, onSortChange}: SortOptionsProps): JSX.Element {
+const SortOptions = memo(({currentSort, onSortChange}: SortOptionsProps): JSX.Element => {
   const [isOpen, setIsOpen] = useState(false);
   const sortRef = useRef<HTMLFormElement>(null);
 
-  const sortOptions: SortType[] = ['Popular', 'Price: low to high', 'Price: high to low', 'Top rated first'];
+  const sortOptions: SortType[] = useMemo(() => ['Popular', 'Price: low to high', 'Price: high to low', 'Top rated first'], []);
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -29,10 +29,10 @@ function SortOptions({currentSort, onSortChange}: SortOptionsProps): JSX.Element
     };
   }, [isOpen]);
 
-  const handleOptionClick = (option: SortType) => {
+  const handleOptionClick = useCallback((option: SortType) => {
     onSortChange(option);
     setIsOpen(false);
-  };
+  }, [onSortChange]);
 
   return (
     <form className="places__sorting" action="#" method="get" ref={sortRef}>
@@ -57,7 +57,9 @@ function SortOptions({currentSort, onSortChange}: SortOptionsProps): JSX.Element
       </ul>
     </form>
   );
-}
+});
+
+SortOptions.displayName = 'SortOptions';
 
 export default SortOptions;
 

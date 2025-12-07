@@ -1,26 +1,25 @@
 import PlaceCard from '../place-card/place-card.tsx';
-import {useState} from 'react';
+import {useState, useCallback, memo} from 'react';
 import {Offer} from '../../types/offer.ts';
 
 type nearbyPlacesListProps = {
   places: Offer[];
-  onListItemHover: (id: string) => void;
+  onListItemHover: (id: string | null) => void;
 }
 
-function NearPlaces({places, onListItemHover}: nearbyPlacesListProps) {
+const NearPlaces = memo(({places, onListItemHover}: nearbyPlacesListProps) => {
   const [, setActiveId] = useState<string | null>(null);
-  const handleMouseEnter = (id: string) => {
+  const handleMouseEnter = useCallback((id: string) => {
     setActiveId(id);
     onListItemHover(id);
-  };
+  }, [onListItemHover]);
 
-  const handleMouseLeave = () => {
+  const handleMouseLeave = useCallback(() => {
     setActiveId(null);
-    onListItemHover('');
-  };
+    onListItemHover(null);
+  }, [onListItemHover]);
 
   return (
-
     <div className="near-places__list places__list">
       {places.map((place) => (
         <PlaceCard
@@ -39,6 +38,8 @@ function NearPlaces({places, onListItemHover}: nearbyPlacesListProps) {
       ))}
     </div>
   );
-}
+});
+
+NearPlaces.displayName = 'NearPlaces';
 
 export default NearPlaces;

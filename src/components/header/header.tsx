@@ -2,20 +2,24 @@ import {AppRoute, AuthorizationStatus} from '../../const.ts';
 import {Link} from 'react-router-dom';
 import {useAppSelector, useAppDispatch} from '../../hooks';
 import {logoutAction} from '../../store/action.ts';
+import {getAuthorizationStatus, getUser, getFavoriteCount} from '../../store/selectors.ts';
+import {useCallback} from 'react';
+import {dropToken} from '../../services/api.ts';
 
 type headerProps = {
   isMain: boolean;
 }
 
 function Header({isMain}: headerProps) : JSX.Element {
-  const authorizationStatus = useAppSelector((state) => state.authorizationStatus);
-  const user = useAppSelector((state) => state.user);
-  const favoriteCount = useAppSelector((state) => state.allOffers.filter((offer) => offer.isFavorite).length);
+  const authorizationStatus = useAppSelector(getAuthorizationStatus);
+  const user = useAppSelector(getUser);
+  const favoriteCount = useAppSelector(getFavoriteCount);
   const dispatch = useAppDispatch();
 
-  const handleSignOut = () => {
+  const handleSignOut = useCallback(() => {
+    dropToken();
     dispatch(logoutAction());
-  };
+  }, [dispatch]);
 
   return (
     <header className="header">

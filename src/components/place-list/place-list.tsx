@@ -1,7 +1,8 @@
 import PlaceCard from '../place-card/place-card.tsx';
-import {useState, useMemo} from 'react';
+import {useState, useMemo, useCallback} from 'react';
 import {useAppSelector} from '../../hooks';
 import {SortType} from '../sort-options/sort-options.tsx';
+import {getPlaces} from '../../store/selectors.ts';
 
 type placeListProps = {
   onListItemHover: (id: string | null) => void;
@@ -10,7 +11,7 @@ type placeListProps = {
 
 function PlaceList({onListItemHover, sortType}: placeListProps) {
   const [, setActiveId] = useState<string | null>(null);
-  const places = useAppSelector((state) => state.places);
+  const places = useAppSelector(getPlaces);
 
   const sortedPlaces = useMemo(() => {
     const placesCopy = [...places];
@@ -28,15 +29,15 @@ function PlaceList({onListItemHover, sortType}: placeListProps) {
     }
   }, [places, sortType]);
 
-  const handleMouseEnter = (id: string) => {
+  const handleMouseEnter = useCallback((id: string) => {
     setActiveId(id);
     onListItemHover(id);
-  };
+  }, [onListItemHover]);
 
-  const handleMouseLeave = () => {
+  const handleMouseLeave = useCallback(() => {
     setActiveId(null);
     onListItemHover(null);
-  };
+  }, [onListItemHover]);
 
   return (
 
