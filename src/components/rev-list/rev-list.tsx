@@ -6,15 +6,13 @@ type reviewsListProps = {
   reviews: Rev[];
 }
 
-const RevList = memo(({reviews} : reviewsListProps): JSX.Element => {
-  return (
-    <ul className="reviews__list">
-      {reviews.map((review) => (
-        <RevItem rev={review} key={review.id} />
-      ))}
-    </ul>
-  );
-});
+const RevList = memo(({reviews} : reviewsListProps): JSX.Element => (
+  <ul className="reviews__list">
+    {reviews.map((review) => (
+      <RevItem rev={review} key={review.id} />
+    ))}
+  </ul>
+));
 
 RevList.displayName = 'RevList';
 
