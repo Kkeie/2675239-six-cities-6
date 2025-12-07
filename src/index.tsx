@@ -1,15 +1,11 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import App from './components/app/app.tsx';
-import {Offers} from './mocks/offers.ts';
 import {Provider} from 'react-redux';
 import {store} from './store';
+import {fetchOffersAction} from './store/action.ts';
 
-const Setting = {
-  Places: Offers,
-} as const;
-
-export {};
+store.dispatch(fetchOffersAction());
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
@@ -18,7 +14,7 @@ const root = ReactDOM.createRoot(
 root.render(
   <React.StrictMode>
     <Provider store={store}>
-      <App offers={Setting.Places}/>
+      <App />
     </Provider>
   </React.StrictMode>
 );

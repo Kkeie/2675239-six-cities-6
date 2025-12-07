@@ -4,9 +4,9 @@ import {InfoOfOffer} from '../../types/info-of-offer.ts';
 import Header from '../../components/header/header.tsx';
 import ReviewsList from '../../components/rev-list/rev-list.tsx';
 import Map from '../../components/map/map.tsx';
-import {Offers} from '../../mocks/offers.ts';
 import {useState} from 'react';
 import NearbyPlacesList from '../../components/near-places/near-places.tsx';
+import {useAppSelector} from '../../hooks';
 
 function OfferScreen(): JSX.Element {
   const offer: InfoOfOffer = {
@@ -78,7 +78,8 @@ function OfferScreen(): JSX.Element {
     }
   ];
 
-  const nearOffers = structuredClone(Offers).slice(0, 3);
+  const allOffers = useAppSelector((state) => state.allOffers);
+  const nearOffers = allOffers.slice(0, 3);
 
   const [activeId, setActiveId] = useState<string | null>(null);
 

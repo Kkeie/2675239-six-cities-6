@@ -3,10 +3,11 @@ import Header from '../../components/header/header.tsx';
 import Map from '../../components/map/map.tsx';
 import {useState} from 'react';
 import CityList from '../../components/list-of-cities/list-of-cities.tsx';
-import Cities from '../../mocks/cities.ts';
+import {Cities} from '../../const.ts';
 import {useAppSelector} from '../../hooks';
 import getPlacesLabel from '../../structure/get-places.ts';
 import SortOptions, {SortType} from '../../components/sort-options/sort-options.tsx';
+import Spinner from '../../components/spinner/spinner.tsx';
 
 
 function MainScreen(): JSX.Element {
@@ -14,6 +15,17 @@ function MainScreen(): JSX.Element {
   const [currentSort, setCurrentSort] = useState<SortType>('Popular');
 
   const currentCity = useAppSelector((state) => state);
+
+  if (currentCity.isLoading) {
+    return (
+      <div className="page page--gray page--main">
+        <Header isMain/>
+        <main className="page__main page__main--index">
+          <Spinner />
+        </main>
+      </div>
+    );
+  }
 
   return (
     <div className="page page--gray page--main">
