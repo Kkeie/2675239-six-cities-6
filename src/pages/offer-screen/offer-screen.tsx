@@ -1,90 +1,47 @@
 import ReviewForm from '../../components/form-review/form-review.tsx';
-import {Navigate} from 'react-router-dom';
-import {InfoOfOffer} from '../../types/info-of-offer.ts';
+import {Navigate, useParams} from 'react-router-dom';
 import Header from '../../components/header/header.tsx';
 import ReviewsList from '../../components/rev-list/rev-list.tsx';
 import Map from '../../components/map/map.tsx';
-import {useState} from 'react';
+import {useState, useEffect} from 'react';
 import NearbyPlacesList from '../../components/near-places/near-places.tsx';
-import {useAppSelector} from '../../hooks';
+import {useAppSelector, useAppDispatch} from '../../hooks';
+import {fetchOfferAction, fetchNearbyOffersAction, fetchCommentsAction} from '../../store/action.ts';
+import {AppRoute, AuthorizationStatus} from '../../const.ts';
+import Spinner from '../../components/spinner/spinner.tsx';
 
 function OfferScreen(): JSX.Element {
-  const offer: InfoOfOffer = {
-    id: '1',
-    title: 'asdsaf',
-    type: 'Apartment',
-    price: 100,
-    city: {
-      name: 'Amsterdam',
-      location: {
-        latitude: 52.3676,
-        longitude: 4.9041,
-        zoom: 12,
-      },
-    },
-    location: {
-      latitude: 52.3676,
-      longitude: 4.9041,
-      zoom: 12,
-    },
-    isFavorite: true,
-    isPremium: false,
-    rating: 2,
-    description: 'A cozy and modern apartment in the city center.',
-    bedrooms: 2,
-    goods: ['WiFi', 'Air conditioning', 'Parking'],
-    host: {
-      name: 'bob',
-      avatarUrl: 'img/avatar-angelina.jpg',
-      isPro: true,
-    },
-    images: ['img/apartment-01.jpg', 'img/apartment-02.jpg', 'img/apartment-03.jpg'],
-    maxAdults: 3,
-  };
-
-  const reviews = [
-    {
-      id: 'b67ddfd5-b953-4a30-8c8d-bd083cd6b62a',
-      date: '2019-05-08T14:13:56.569Z',
-      user: {
-        name: 'kennyS',
-        avatarUrl: 'markup/img/avatar-max.jpg',
-        isPro: false
-      },
-      comment: 'A quiet cozy and picturesque that hides behind a a river by the unique lightness of Amsterdam.',
-      rating: 4
-    },
-    {
-      id: 'b67ddfd5-b953-2a50-8c8d-bd083cd6b62a',
-      date: '2025-10-10T14:13:56.569Z',
-      user: {
-        name: 'biba',
-        avatarUrl: 'markup/img/avatar.svg',
-        isPro: false
-      },
-      comment: 'blaahlbahablah best blahblahblahh',
-      rating: 4
-    },
-    {
-      id: 'b67241fd5-b953-2a50-8c8d-bd083cd6b62a',
-      date: '2025-10-10T14:13:56.569Z',
-      user: {
-        name: 'boba',
-        avatarUrl: 'markup/img/avatar.svg',
-        isPro: false
-      },
-      comment: 'blahbahbablab',
-      rating: 5
-    }
-  ];
-
-  const allOffers = useAppSelector((state) => state.allOffers);
-  const nearOffers = allOffers.slice(0, 3);
+  const {id} = useParams<{id: string}>();
+  const dispatch = useAppDispatch();
+  const offer = useAppSelector((state) => state.currentOffer);
+  const nearbyOffers = useAppSelector((state) => state.nearbyOffers);
+  const comments = useAppSelector((state) => state.comments);
+  const isOfferLoading = useAppSelector((state) => state.isOfferLoading);
+  const authorizationStatus = useAppSelector((state) => state.authorizationStatus);
 
   const [activeId, setActiveId] = useState<string | null>(null);
 
-  if (offer === null) {
-    return <Navigate to="/404" />;
+  useEffect(() => {
+    if (id) {
+      dispatch(fetchOfferAction(id));
+      dispatch(fetchNearbyOffersAction(id));
+      dispatch(fetchCommentsAction(id));
+    }
+  }, [id, dispatch]);
+
+  if (isOfferLoading) {
+    return (
+      <div className="page">
+        <Header isMain={false}/>
+        <main className="page__main page__main--offer">
+          <Spinner />
+        </main>
+      </div>
+    );
+  }
+
+  if (!offer) {
+    return <Navigate to={AppRoute.NotFound} />;
   }
   return (
     <div className="page">
@@ -185,9 +142,9 @@ function OfferScreen(): JSX.Element {
                 </div>
               </div>
               <section className="offer__reviews reviews">
-                <h2 className="reviews__title">Reviews &middot; <span className="reviews__amount">{reviews.length}</span></h2>
-                <ReviewsList reviews={reviews}/>
-                <ReviewForm />
+                <h2 className="reviews__title">Reviews &middot; <span className="reviews__amount">{comments.length}</span></h2>
+                <ReviewsList reviews={comments}/>
+                {authorizationStatus === AuthorizationStatus.Auth && <ReviewForm offerId={id || ''} />}
               </section>
             </div>
           </div>
@@ -196,7 +153,7 @@ function OfferScreen(): JSX.Element {
         <div className="container">
           <section className="near-places places">
             <h2 className="near-places__title">Other places in the neighbourhood</h2>
-            <NearbyPlacesList places={nearOffers} onListItemHover={setActiveId}/>
+            <NearbyPlacesList places={nearbyOffers} onListItemHover={setActiveId}/>
           </section>
         </div>
       </main>
