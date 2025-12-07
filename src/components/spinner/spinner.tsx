@@ -6,6 +6,7 @@ function Spinner(): JSX.Element {
       alignItems: 'center',
       minHeight: '200px',
     }}
+
     >
       <div style={{
         width: '50px',
