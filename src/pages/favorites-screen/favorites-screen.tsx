@@ -2,9 +2,10 @@ import Favorites from '../../components/favourite/favourite.tsx';
 import Footer from '../../components/fotter/fotter.tsx';
 import Header from '../../components/header/header.tsx';
 import {useAppSelector} from '../../hooks';
+import {getFavoriteOffers} from '../../store/selectors.ts';
 
 function FavoritesScreen(): JSX.Element {
-  const offers = useAppSelector((state) => state.allOffers.filter((place) => place.isFavorite));
+  const offers = useAppSelector(getFavoriteOffers);
 
   return (
     <div className="page">

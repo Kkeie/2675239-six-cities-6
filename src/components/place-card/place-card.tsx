@@ -1,4 +1,5 @@
 import {Link} from 'react-router-dom';
+import {memo} from 'react';
 
 type PlaceCardProps = {
   id: string;
@@ -13,7 +14,7 @@ type PlaceCardProps = {
   nameOfClass: string;
 }
 
-function PlaceCard(props : PlaceCardProps): JSX.Element {
+const PlaceCard = memo(function PlaceCard(props : PlaceCardProps): JSX.Element {
   return (
     <article className={`${props.nameOfClass}__card place-card`}
       onMouseEnter={props.onMouseEnter}
@@ -56,7 +57,9 @@ function PlaceCard(props : PlaceCardProps): JSX.Element {
       </div>
     </article>
   );
-}
+});
+
+PlaceCard.displayName = 'PlaceCard';
 
 export default PlaceCard;
 

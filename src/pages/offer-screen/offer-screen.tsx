@@ -3,23 +3,28 @@ import {Navigate, useParams} from 'react-router-dom';
 import Header from '../../components/header/header.tsx';
 import ReviewsList from '../../components/rev-list/rev-list.tsx';
 import Map from '../../components/map/map.tsx';
-import {useState, useEffect} from 'react';
+import {useState, useEffect, useCallback} from 'react';
 import NearbyPlacesList from '../../components/near-places/near-places.tsx';
 import {useAppSelector, useAppDispatch} from '../../hooks';
 import {fetchOfferAction, fetchNearbyOffersAction, fetchCommentsAction} from '../../store/action.ts';
 import {AppRoute, AuthorizationStatus} from '../../const.ts';
 import Spinner from '../../components/spinner/spinner.tsx';
+import {getCurrentOffer, getNearbyOffers, getComments, getIsOfferLoading, getAuthorizationStatus} from '../../store/selectors.ts';
 
 function OfferScreen(): JSX.Element {
   const {id} = useParams<{id: string}>();
   const dispatch = useAppDispatch();
-  const offer = useAppSelector((state) => state.currentOffer);
-  const nearbyOffers = useAppSelector((state) => state.nearbyOffers);
-  const comments = useAppSelector((state) => state.comments);
-  const isOfferLoading = useAppSelector((state) => state.isOfferLoading);
-  const authorizationStatus = useAppSelector((state) => state.authorizationStatus);
+  const offer = useAppSelector(getCurrentOffer);
+  const nearbyOffers = useAppSelector(getNearbyOffers);
+  const comments = useAppSelector(getComments);
+  const isOfferLoading = useAppSelector(getIsOfferLoading);
+  const authorizationStatus = useAppSelector(getAuthorizationStatus);
 
   const [activeId, setActiveId] = useState<string | null>(null);
+
+  const handleListItemHover = useCallback((id: string | null) => {
+    setActiveId(id);
+  }, []);
 
   useEffect(() => {
     if (id) {
@@ -153,7 +158,7 @@ function OfferScreen(): JSX.Element {
         <div className="container">
           <section className="near-places places">
             <h2 className="near-places__title">Other places in the neighbourhood</h2>
-            <NearbyPlacesList places={nearbyOffers} onListItemHover={setActiveId}/>
+            <NearbyPlacesList places={nearbyOffers} onListItemHover={handleListItemHover}/>
           </section>
         </div>
       </main>

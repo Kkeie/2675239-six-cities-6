@@ -1,24 +1,26 @@
 import {useAppDispatch, useAppSelector} from '../../hooks';
 import {changeCityAction} from '../../store/action.ts';
 import {City} from '../../types/city.ts';
+import {useMemo, useCallback} from 'react';
+import {getCity} from '../../store/selectors.ts';
 
 type CityListProps = {
   cities: City[];
 }
 
 function CityList({cities}: CityListProps) {
-  const citiesNames = cities.map((city) => city.name);
-  const currentCity = useAppSelector((state) => state.city);
+  const citiesNames = useMemo(() => cities.map((city) => city.name), [cities]);
+  const currentCity = useAppSelector(getCity);
 
-  const cityMap = Object.fromEntries(
+  const cityMap = useMemo(() => Object.fromEntries(
     cities.map((city) => [city.name, city])
-  );
+  ), [cities]);
 
   const dispatch = useAppDispatch();
 
-  const cityClickHandle = (cityName: City['name']) => {
+  const cityClickHandle = useCallback((cityName: City['name']) => {
     dispatch(changeCityAction(cityMap[cityName]));
-  };
+  }, [dispatch, cityMap]);
 
 
   return (

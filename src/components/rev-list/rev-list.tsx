@@ -1,11 +1,12 @@
 import {Rev} from '../../types/rev.ts';
 import RevItem from '../item-rev/item-rev.tsx';
+import {memo} from 'react';
 
 type reviewsListProps = {
   reviews: Rev[];
 }
 
-function RevList({reviews} : reviewsListProps): JSX.Element {
+const RevList = memo(function RevList({reviews} : reviewsListProps): JSX.Element {
   return (
     <ul className="reviews__list">
       {reviews.map((review) => (
@@ -13,6 +14,8 @@ function RevList({reviews} : reviewsListProps): JSX.Element {
       ))}
     </ul>
   );
-}
+});
+
+RevList.displayName = 'RevList';
 
 export default RevList;
