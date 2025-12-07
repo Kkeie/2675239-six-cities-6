@@ -1,11 +1,19 @@
 import React from 'react';
-import {useState} from 'react';
+import {useState, FormEvent} from 'react';
+import {useAppDispatch} from '../../hooks';
+import {postCommentAction} from '../../store/action.ts';
 
-function FormReview() : JSX.Element {
+type FormReviewProps = {
+  offerId: string;
+}
+
+function FormReview({offerId}: FormReviewProps) : JSX.Element {
   const [formData, setFormData] = useState({
     rating: 0,
     comment: '',
   });
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const dispatch = useAppDispatch();
 
   const handleRatingChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setFormData((prevData) => ({
@@ -21,7 +29,7 @@ function FormReview() : JSX.Element {
     }));
   };
 
-  const isFormValid = formData.rating > 0 && formData.comment.length >= 50;
+  const isFormValid = formData.rating > 0 && formData.comment.length >= 50 && formData.comment.length <= 300;
 
   const starTitles: { [key: number]: string } = {
     5: 'perfect',
@@ -31,8 +39,33 @@ function FormReview() : JSX.Element {
     1: 'terribly',
   };
 
+  const handleSubmit = (evt: FormEvent<HTMLFormElement>) => {
+    evt.preventDefault();
+    
+    if (!isFormValid || isSubmitting) {
+      return;
+    }
+
+    setIsSubmitting(true);
+    dispatch(postCommentAction({
+      offerId,
+      comment: formData.comment,
+      rating: formData.rating,
+    }))
+      .unwrap()
+      .then(() => {
+        setFormData({
+          rating: 0,
+          comment: '',
+        });
+      })
+      .finally(() => {
+        setIsSubmitting(false);
+      });
+  };
+
   return (
-    <form className="reviews__form form" action="#" method="post">
+    <form className="reviews__form form" action="#" method="post" onSubmit={handleSubmit}>
       <label className="reviews__label form__label" htmlFor="review">Your review</label>
       <div className="reviews__rating-form form__rating">
         {[5, 4, 3, 2, 1].map((star) => (
@@ -45,6 +78,7 @@ function FormReview() : JSX.Element {
               type="radio"
               checked={formData.rating === star}
               onChange={handleRatingChange}
+              disabled={isSubmitting}
             />
             <label
               htmlFor={`${star}-stars`}
@@ -62,6 +96,7 @@ function FormReview() : JSX.Element {
         placeholder="Tell how was your stay, what you like and what can be improved"
         value={formData.comment}
         onChange={handleCommentChange}
+        disabled={isSubmitting}
       >
       </textarea>
       <div className="reviews__button-wrapper">
@@ -69,7 +104,9 @@ function FormReview() : JSX.Element {
           To submit review please make sure to set <span className="reviews__star">rating</span> and
           describe your stay with at least <b className="reviews__text-amount">50 characters</b>.
         </p>
-        <button className="reviews__submit form__submit button" type="submit" disabled={!isFormValid}>Submit</button>
+        <button className="reviews__submit form__submit button" type="submit" disabled={!isFormValid || isSubmitting}>
+          {isSubmitting ? 'Submitting...' : 'Submit'}
+        </button>
       </div>
     </form>
   );

@@ -5,6 +5,8 @@ import {AxiosInstance} from 'axios';
 import {AppDispatch, State} from '../types/state.ts';
 import {AuthorizationStatus} from '../const.ts';
 import {AuthInfo, LoginData} from '../types/auth.ts';
+import {InfoOfOffer} from '../types/info-of-offer.ts';
+import {Rev} from '../types/rev.ts';
 
 
 export const changeCityAction = createAction('changeCity', (city: City) => ({
@@ -55,3 +57,52 @@ export const loginAction = createAsyncThunk<AuthInfo, LoginData, {
 );
 
 export const logoutAction = createAction('user/logout');
+
+export const fetchOfferAction = createAsyncThunk<InfoOfOffer, string, {
+  dispatch: AppDispatch;
+  state: State;
+  extra: AxiosInstance;
+}>(
+  'data/fetchOffer',
+  async (offerId, {extra: api}) => {
+    const {data} = await api.get<InfoOfOffer>(`/offers/${offerId}`);
+    return data;
+  },
+);
+
+export const fetchNearbyOffersAction = createAsyncThunk<Offer[], string, {
+  dispatch: AppDispatch;
+  state: State;
+  extra: AxiosInstance;
+}>(
+  'data/fetchNearbyOffers',
+  async (offerId, {extra: api}) => {
+    const {data} = await api.get<Offer[]>(`/offers/${offerId}/nearby`);
+    return data;
+  },
+);
+
+export const fetchCommentsAction = createAsyncThunk<Rev[], string, {
+  dispatch: AppDispatch;
+  state: State;
+  extra: AxiosInstance;
+}>(
+  'data/fetchComments',
+  async (offerId, {extra: api}) => {
+    const {data} = await api.get<Rev[]>(`/comments/${offerId}`);
+    return data;
+  },
+);
+
+export const postCommentAction = createAsyncThunk<Rev, {offerId: string; comment: string; rating: number}, {
+  dispatch: AppDispatch;
+  state: State;
+  extra: AxiosInstance;
+}>(
+  'data/postComment',
+  async ({offerId, comment, rating}, {dispatch, extra: api}) => {
+    const {data} = await api.post<Rev>(`/comments/${offerId}`, {comment, rating});
+    dispatch(fetchCommentsAction(offerId));
+    return data;
+  },
+);

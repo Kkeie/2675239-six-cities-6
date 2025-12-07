@@ -1,10 +1,12 @@
 import { createReducer } from '@reduxjs/toolkit';
-import {changeCityAction, fillPlacesAction, fetchOffersAction, requireAuthorizationAction, setUserAction, loginAction, checkAuthAction, logoutAction} from './action.ts';
+import {changeCityAction, fillPlacesAction, fetchOffersAction, requireAuthorizationAction, setUserAction, loginAction, checkAuthAction, logoutAction, fetchOfferAction, fetchNearbyOffersAction, fetchCommentsAction} from './action.ts';
 import {Offer} from '../types/offer.ts';
 import { City } from '../types/city.ts';
 import {AuthorizationStatus} from '../const.ts';
 import {AuthInfo} from '../types/auth.ts';
 import {saveToken, dropToken} from '../services/api.ts';
+import {InfoOfOffer} from '../types/info-of-offer.ts';
+import {Rev} from '../types/rev.ts';
 
 type stateCityProps = {
   city: City;
@@ -13,6 +15,10 @@ type stateCityProps = {
   isLoading: boolean;
   authorizationStatus: AuthorizationStatus;
   user: AuthInfo | null;
+  currentOffer: InfoOfOffer | null;
+  nearbyOffers: Offer[];
+  comments: Rev[];
+  isOfferLoading: boolean;
 }
 
 const stateCity: stateCityProps = {
@@ -29,6 +35,10 @@ const stateCity: stateCityProps = {
   isLoading: false,
   authorizationStatus: AuthorizationStatus.Unknown,
   user: null,
+  currentOffer: null,
+  nearbyOffers: [],
+  comments: [],
+  isOfferLoading: false,
 };
 
 export const reducer = createReducer(stateCity, (builder) => {
@@ -76,5 +86,22 @@ export const reducer = createReducer(stateCity, (builder) => {
       dropToken();
       state.user = null;
       state.authorizationStatus = AuthorizationStatus.NoAuth;
+    })
+    .addCase(fetchOfferAction.pending, (state) => {
+      state.isOfferLoading = true;
+    })
+    .addCase(fetchOfferAction.fulfilled, (state, action) => {
+      state.currentOffer = action.payload;
+      state.isOfferLoading = false;
+    })
+    .addCase(fetchOfferAction.rejected, (state) => {
+      state.currentOffer = null;
+      state.isOfferLoading = false;
+    })
+    .addCase(fetchNearbyOffersAction.fulfilled, (state, action) => {
+      state.nearbyOffers = action.payload;
+    })
+    .addCase(fetchCommentsAction.fulfilled, (state, action) => {
+      state.comments = action.payload;
     });
 });
