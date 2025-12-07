@@ -6,7 +6,7 @@ type reviewsListProps = {
   reviews: Rev[];
 }
 
-const RevList = memo(function RevList({reviews} : reviewsListProps): JSX.Element {
+const RevList = memo(({reviews} : reviewsListProps): JSX.Element => {
   return (
     <ul className="reviews__list">
       {reviews.map((review) => (

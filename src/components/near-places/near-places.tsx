@@ -7,7 +7,7 @@ type nearbyPlacesListProps = {
   onListItemHover: (id: string | null) => void;
 }
 
-const NearPlaces = memo(function NearPlaces({places, onListItemHover}: nearbyPlacesListProps) {
+const NearPlaces = memo(({places, onListItemHover}: nearbyPlacesListProps) => {
   const [, setActiveId] = useState<string | null>(null);
   const handleMouseEnter = useCallback((id: string) => {
     setActiveId(id);

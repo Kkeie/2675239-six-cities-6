@@ -7,7 +7,7 @@ type SortOptionsProps = {
   onSortChange: (sort: SortType) => void;
 }
 
-const SortOptions = memo(function SortOptions({currentSort, onSortChange}: SortOptionsProps): JSX.Element {
+const SortOptions = memo(({currentSort, onSortChange}: SortOptionsProps): JSX.Element => {
   const [isOpen, setIsOpen] = useState(false);
   const sortRef = useRef<HTMLFormElement>(null);
 

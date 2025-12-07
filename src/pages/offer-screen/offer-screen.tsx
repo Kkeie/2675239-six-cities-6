@@ -12,7 +12,7 @@ import Spinner from '../../components/spinner/spinner.tsx';
 import {getCurrentOffer, getNearbyOffers, getComments, getIsOfferLoading, getAuthorizationStatus} from '../../store/selectors.ts';
 
 function OfferScreen(): JSX.Element {
-  const {id} = useParams<{id: string}>();
+  const {id: offerId} = useParams<{id: string}>();
   const dispatch = useAppDispatch();
   const offer = useAppSelector(getCurrentOffer);
   const nearbyOffers = useAppSelector(getNearbyOffers);
@@ -22,17 +22,17 @@ function OfferScreen(): JSX.Element {
 
   const [activeId, setActiveId] = useState<string | null>(null);
 
-  const handleListItemHover = useCallback((id: string | null) => {
-    setActiveId(id);
+  const handleListItemHover = useCallback((hoveredId: string | null) => {
+    setActiveId(hoveredId);
   }, []);
 
   useEffect(() => {
-    if (id) {
-      dispatch(fetchOfferAction(id));
-      dispatch(fetchNearbyOffersAction(id));
-      dispatch(fetchCommentsAction(id));
+    if (offerId) {
+      dispatch(fetchOfferAction(offerId));
+      dispatch(fetchNearbyOffersAction(offerId));
+      dispatch(fetchCommentsAction(offerId));
     }
-  }, [id, dispatch]);
+  }, [offerId, dispatch]);
 
   if (isOfferLoading) {
     return (
@@ -149,7 +149,7 @@ function OfferScreen(): JSX.Element {
               <section className="offer__reviews reviews">
                 <h2 className="reviews__title">Reviews &middot; <span className="reviews__amount">{comments.length}</span></h2>
                 <ReviewsList reviews={comments}/>
-                {authorizationStatus === AuthorizationStatus.Auth && <ReviewForm offerId={id || ''} />}
+                {authorizationStatus === AuthorizationStatus.Auth && <ReviewForm offerId={offerId || ''} />}
               </section>
             </div>
           </div>

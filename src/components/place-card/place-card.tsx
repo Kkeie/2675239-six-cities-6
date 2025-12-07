@@ -14,7 +14,7 @@ type PlaceCardProps = {
   nameOfClass: string;
 }
 
-const PlaceCard = memo(function PlaceCard(props : PlaceCardProps): JSX.Element {
+const PlaceCard = memo((props : PlaceCardProps): JSX.Element => {
   return (
     <article className={`${props.nameOfClass}__card place-card`}
       onMouseEnter={props.onMouseEnter}
