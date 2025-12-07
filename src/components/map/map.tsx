@@ -57,3 +57,4 @@ function Map({activeId, className}: mapProps): JSX.Element {
 }
 
 export default Map;
+
