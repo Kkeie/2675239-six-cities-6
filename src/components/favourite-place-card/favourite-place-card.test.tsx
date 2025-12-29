@@ -83,7 +83,7 @@ describe('FavoritesPlaceCard', () => {
     render(
       <Provider store={store}>
         <MemoryRouter>
-          <FavoritesPlaceCard {...mockProps} isPremium={true} />
+          <FavoritesPlaceCard {...mockProps} isPremium />
         </MemoryRouter>
       </Provider>
     );
@@ -96,7 +96,7 @@ describe('FavoritesPlaceCard', () => {
     render(
       <Provider store={store}>
         <MemoryRouter>
-          <FavoritesPlaceCard {...mockProps} isFavorite={true} />
+          <FavoritesPlaceCard {...mockProps} isFavorite />
         </MemoryRouter>
       </Provider>
     );
@@ -121,7 +121,7 @@ describe('FavoritesPlaceCard', () => {
     const favoriteButton = screen.getByRole('button');
     await user.click(favoriteButton);
 
-    await new Promise(resolve => setTimeout(resolve, 100));
+    await new Promise((resolve) => setTimeout(resolve, 100));
     // Check that dispatch was called
     expect(dispatchSpy).toHaveBeenCalled();
   });
@@ -137,7 +137,7 @@ describe('FavoritesPlaceCard', () => {
     );
 
     const links = screen.getAllByRole('link');
-    const offerLink = links.find(link => link.getAttribute('href') === '/offer/1');
+    const offerLink = links.find((link) => link.getAttribute('href') === '/offer/1');
     expect(offerLink).toBeInTheDocument();
   });
 });

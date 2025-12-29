@@ -119,7 +119,7 @@ describe('Header', () => {
     await user.click(signOutButton.closest('a')!);
 
     // Check that logout action was dispatched
-    await new Promise(resolve => setTimeout(resolve, 100));
+    await new Promise((resolve) => setTimeout(resolve, 100));
     const state = store.getState();
     expect(state.user.authorizationStatus).toBe(AuthorizationStatus.NoAuth);
   });
@@ -129,7 +129,7 @@ describe('Header', () => {
     render(
       <Provider store={store}>
         <MemoryRouter>
-          <Header isMain={true} />
+          <Header isMain />
         </MemoryRouter>
       </Provider>
     );

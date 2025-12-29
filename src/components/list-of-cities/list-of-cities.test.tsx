@@ -10,8 +10,7 @@ import { Cities, AuthorizationStatus } from '../../const';
 
 const createMockStore = (currentCityName = 'Paris') => {
   const api = createAPI();
-  const currentCity = Cities.find(city => city.name === currentCityName) || Cities[0];
-  
+  const currentCity = Cities.find((city) => city.name === currentCityName) || Cities[0];
   return configureStore({
     reducer,
     preloadedState: {
@@ -52,7 +51,7 @@ describe('CityList', () => {
       </Provider>
     );
 
-    Cities.forEach(city => {
+    Cities.forEach((city) => {
       expect(screen.getByText(city.name)).toBeInTheDocument();
     });
   });
@@ -98,8 +97,7 @@ describe('CityList', () => {
     await user.click(amsterdamLink);
 
     // Wait for state update
-    await new Promise(resolve => setTimeout(resolve, 100));
-    
+    await new Promise((resolve) => setTimeout(resolve, 100));
     const state = store.getState();
     expect(state.data.city.name).toBe('Amsterdam');
   });

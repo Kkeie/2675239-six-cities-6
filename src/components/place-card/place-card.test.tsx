@@ -8,7 +8,6 @@ import PlaceCard from './place-card';
 import { reducer } from '../../store/reducer';
 import { createAPI } from '../../services/api';
 import { AuthorizationStatus } from '../../const';
-import MockAdapter from 'axios-mock-adapter';
 
 const createMockStore = (authorizationStatus: AuthorizationStatus = AuthorizationStatus.Auth) => {
   const api = createAPI();
@@ -87,7 +86,7 @@ describe('PlaceCard', () => {
     render(
       <Provider store={store}>
         <MemoryRouter>
-          <PlaceCard {...mockProps} isPremium={true} />
+          <PlaceCard {...mockProps} isPremium />
         </MemoryRouter>
       </Provider>
     );
@@ -148,7 +147,7 @@ describe('PlaceCard', () => {
     const favoriteButton = screen.getByRole('button');
     await user.click(favoriteButton);
 
-    await new Promise(resolve => setTimeout(resolve, 100));
+    await new Promise((resolve) => setTimeout(resolve, 100));
     // Check that dispatch was called
     expect(dispatchSpy).toHaveBeenCalled();
   });
@@ -156,7 +155,7 @@ describe('PlaceCard', () => {
   it('should navigate to login when favorite button is clicked and user is not authenticated', async () => {
     const user = userEvent.setup();
     const store = createMockStore(AuthorizationStatus.NoAuth);
-    const { container } = render(
+    render(
       <Provider store={store}>
         <MemoryRouter initialEntries={['/']}>
           <PlaceCard {...mockProps} />
@@ -177,7 +176,7 @@ describe('PlaceCard', () => {
     render(
       <Provider store={store}>
         <MemoryRouter>
-          <PlaceCard {...mockProps} isFavorite={true} />
+          <PlaceCard {...mockProps} isFavorite />
         </MemoryRouter>
       </Provider>
     );

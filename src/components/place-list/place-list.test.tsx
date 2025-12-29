@@ -172,7 +172,7 @@ describe('PlaceList', () => {
     expect(offers[2]).toHaveTextContent('Offer 3');
   });
 
-  it('should call onListItemHover when mouse enters a card', async () => {
+  it('should call onListItemHover when mouse enters a card', () => {
     const store = createMockStore();
     const { container } = render(
       <Provider store={store}>
@@ -186,12 +186,11 @@ describe('PlaceList', () => {
     if (firstCard) {
       // Use fireEvent to properly trigger React event handlers
       fireEvent.mouseEnter(firstCard);
-      
       expect(mockOnListItemHover).toHaveBeenCalledWith('1');
     }
   });
 
-  it('should call onListItemHover with null when mouse leaves a card', async () => {
+  it('should call onListItemHover with null when mouse leaves a card', () => {
     const store = createMockStore();
     const { container } = render(
       <Provider store={store}>
@@ -205,7 +204,6 @@ describe('PlaceList', () => {
     if (firstCard) {
       // Use fireEvent to properly trigger React event handlers
       fireEvent.mouseLeave(firstCard);
-      
       expect(mockOnListItemHover).toHaveBeenCalledWith(null);
     }
   });

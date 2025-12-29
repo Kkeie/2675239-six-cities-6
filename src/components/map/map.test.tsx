@@ -16,7 +16,6 @@ vi.mock('leaflet', () => {
   const mockEachLayer = vi.fn();
   const mockRemoveLayer = vi.fn();
   const mockAddTo = vi.fn().mockReturnThis();
-  
   const mockMap = {
     flyTo: mockFlyTo,
     eachLayer: mockEachLayer,

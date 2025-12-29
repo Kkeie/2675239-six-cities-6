@@ -12,17 +12,15 @@ describe('FormReview', () => {
   let mockApi: MockAdapter;
   let api: ReturnType<typeof createAPI>;
 
-  const createMockStore = () => {
-    return configureStore({
-      reducer,
-      middleware: (getDefaultMiddleware) =>
-        getDefaultMiddleware({
-          thunk: {
-            extraArgument: api,
-          },
-        }),
-    });
-  };
+  const createMockStore = () => configureStore({
+    reducer,
+    middleware: (getDefaultMiddleware) =>
+      getDefaultMiddleware({
+        thunk: {
+          extraArgument: api,
+        },
+      }),
+  });
 
   beforeEach(() => {
     api = createAPI();
@@ -174,13 +172,11 @@ describe('FormReview', () => {
       rating: 5,
     };
     // Delay response to check submitting state
-    mockApi.onPost('/comments/1').reply(() => {
-      return new Promise((resolve) => {
-        setTimeout(() => {
-          resolve([200, mockComment]);
-        }, 100);
-      });
-    });
+    mockApi.onPost('/comments/1').reply(() => new Promise((resolve) => {
+      setTimeout(() => {
+        resolve([200, mockComment]);
+      }, 100);
+    }));
     mockApi.onGet('/comments/1').reply(200, [mockComment]);
 
     render(
