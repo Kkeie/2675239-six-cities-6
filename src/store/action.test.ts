@@ -17,6 +17,7 @@ import { InfoOfOffer } from '../types/info-of-offer';
 import { Rev } from '../types/rev';
 import { AuthInfo } from '../types/auth';
 import { City } from '../types/city';
+import { reducer } from './reducer';
 
 describe('Async actions', () => {
   let mockApi: MockAdapter;
@@ -106,10 +107,7 @@ describe('Async actions', () => {
       mockApi.onGet('/offers').reply(200, offers);
 
       const store = configureStore({
-        reducer: {
-          data: (state = { allOffers: [], places: [], city: mockCity, isLoading: false, currentOffer: null, nearbyOffers: [], comments: [], isOfferLoading: false }) => state,
-          user: (state = { authorizationStatus: 'UNKNOWN' as const, user: null }) => state,
-        },
+        reducer,
         middleware: (getDefaultMiddleware) =>
           getDefaultMiddleware({
             thunk: {
@@ -128,10 +126,7 @@ describe('Async actions', () => {
       mockApi.onGet('/offers').reply(500);
 
       const store = configureStore({
-        reducer: {
-          data: (state = { allOffers: [], places: [], city: mockCity, isLoading: false, currentOffer: null, nearbyOffers: [], comments: [], isOfferLoading: false }) => state,
-          user: (state = { authorizationStatus: 'UNKNOWN' as const, user: null }) => state,
-        },
+        reducer,
         middleware: (getDefaultMiddleware) =>
           getDefaultMiddleware({
             thunk: {
@@ -151,10 +146,7 @@ describe('Async actions', () => {
       mockApi.onGet('/offers/1').reply(200, mockInfoOffer);
 
       const store = configureStore({
-        reducer: {
-          data: (state = { allOffers: [], places: [], city: mockCity, isLoading: false, currentOffer: null, nearbyOffers: [], comments: [], isOfferLoading: false }) => state,
-          user: (state = { authorizationStatus: 'UNKNOWN' as const, user: null }) => state,
-        },
+        reducer,
         middleware: (getDefaultMiddleware) =>
           getDefaultMiddleware({
             thunk: {
@@ -173,10 +165,7 @@ describe('Async actions', () => {
       mockApi.onGet('/offers/1').reply(404);
 
       const store = configureStore({
-        reducer: {
-          data: (state = { allOffers: [], places: [], city: mockCity, isLoading: false, currentOffer: null, nearbyOffers: [], comments: [], isOfferLoading: false }) => state,
-          user: (state = { authorizationStatus: 'UNKNOWN' as const, user: null }) => state,
-        },
+        reducer,
         middleware: (getDefaultMiddleware) =>
           getDefaultMiddleware({
             thunk: {
@@ -197,10 +186,7 @@ describe('Async actions', () => {
       mockApi.onGet('/offers/1/nearby').reply(200, nearbyOffers);
 
       const store = configureStore({
-        reducer: {
-          data: (state = { allOffers: [], places: [], city: mockCity, isLoading: false, currentOffer: null, nearbyOffers: [], comments: [], isOfferLoading: false }) => state,
-          user: (state = { authorizationStatus: 'UNKNOWN' as const, user: null }) => state,
-        },
+        reducer,
         middleware: (getDefaultMiddleware) =>
           getDefaultMiddleware({
             thunk: {
@@ -219,10 +205,7 @@ describe('Async actions', () => {
       mockApi.onGet('/offers/1/nearby').reply(500);
 
       const store = configureStore({
-        reducer: {
-          data: (state = { allOffers: [], places: [], city: mockCity, isLoading: false, currentOffer: null, nearbyOffers: [], comments: [], isOfferLoading: false }) => state,
-          user: (state = { authorizationStatus: 'UNKNOWN' as const, user: null }) => state,
-        },
+        reducer,
         middleware: (getDefaultMiddleware) =>
           getDefaultMiddleware({
             thunk: {
@@ -243,10 +226,7 @@ describe('Async actions', () => {
       mockApi.onGet('/comments/1').reply(200, comments);
 
       const store = configureStore({
-        reducer: {
-          data: (state = { allOffers: [], places: [], city: mockCity, isLoading: false, currentOffer: null, nearbyOffers: [], comments: [], isOfferLoading: false }) => state,
-          user: (state = { authorizationStatus: 'UNKNOWN' as const, user: null }) => state,
-        },
+        reducer,
         middleware: (getDefaultMiddleware) =>
           getDefaultMiddleware({
             thunk: {
@@ -265,10 +245,7 @@ describe('Async actions', () => {
       mockApi.onGet('/comments/1').reply(500);
 
       const store = configureStore({
-        reducer: {
-          data: (state = { allOffers: [], places: [], city: mockCity, isLoading: false, currentOffer: null, nearbyOffers: [], comments: [], isOfferLoading: false }) => state,
-          user: (state = { authorizationStatus: 'UNKNOWN' as const, user: null }) => state,
-        },
+        reducer,
         middleware: (getDefaultMiddleware) =>
           getDefaultMiddleware({
             thunk: {
@@ -290,10 +267,7 @@ describe('Async actions', () => {
       mockApi.onGet('/offers').reply(200, [updatedOffer]);
 
       const store = configureStore({
-        reducer: {
-          data: (state = { allOffers: [], places: [], city: mockCity, isLoading: false, currentOffer: null, nearbyOffers: [], comments: [], isOfferLoading: false }) => state,
-          user: (state = { authorizationStatus: 'UNKNOWN' as const, user: null }) => state,
-        },
+        reducer,
         middleware: (getDefaultMiddleware) =>
           getDefaultMiddleware({
             thunk: {
@@ -312,10 +286,7 @@ describe('Async actions', () => {
       mockApi.onPost('/favorite/1/1').reply(401);
 
       const store = configureStore({
-        reducer: {
-          data: (state = { allOffers: [], places: [], city: mockCity, isLoading: false, currentOffer: null, nearbyOffers: [], comments: [], isOfferLoading: false }) => state,
-          user: (state = { authorizationStatus: 'UNKNOWN' as const, user: null }) => state,
-        },
+        reducer,
         middleware: (getDefaultMiddleware) =>
           getDefaultMiddleware({
             thunk: {
@@ -336,10 +307,7 @@ describe('Async actions', () => {
       mockApi.onGet('/favorite').reply(200, favoriteOffers);
 
       const store = configureStore({
-        reducer: {
-          data: (state = { allOffers: [], places: [], city: mockCity, isLoading: false, currentOffer: null, nearbyOffers: [], comments: [], isOfferLoading: false }) => state,
-          user: (state = { authorizationStatus: 'UNKNOWN' as const, user: null }) => state,
-        },
+        reducer,
         middleware: (getDefaultMiddleware) =>
           getDefaultMiddleware({
             thunk: {
@@ -358,10 +326,7 @@ describe('Async actions', () => {
       mockApi.onGet('/favorite').reply(401);
 
       const store = configureStore({
-        reducer: {
-          data: (state = { allOffers: [], places: [], city: mockCity, isLoading: false, currentOffer: null, nearbyOffers: [], comments: [], isOfferLoading: false }) => state,
-          user: (state = { authorizationStatus: 'UNKNOWN' as const, user: null }) => state,
-        },
+        reducer,
         middleware: (getDefaultMiddleware) =>
           getDefaultMiddleware({
             thunk: {
@@ -381,10 +346,7 @@ describe('Async actions', () => {
       mockApi.onGet('/login').reply(200, mockAuthInfo);
 
       const store = configureStore({
-        reducer: {
-          data: (state = { allOffers: [], places: [], city: mockCity, isLoading: false, currentOffer: null, nearbyOffers: [], comments: [], isOfferLoading: false }) => state,
-          user: (state = { authorizationStatus: 'UNKNOWN' as const, user: null }) => state,
-        },
+        reducer,
         middleware: (getDefaultMiddleware) =>
           getDefaultMiddleware({
             thunk: {
@@ -403,10 +365,7 @@ describe('Async actions', () => {
       mockApi.onGet('/login').reply(401);
 
       const store = configureStore({
-        reducer: {
-          data: (state = { allOffers: [], places: [], city: mockCity, isLoading: false, currentOffer: null, nearbyOffers: [], comments: [], isOfferLoading: false }) => state,
-          user: (state = { authorizationStatus: 'UNKNOWN' as const, user: null }) => state,
-        },
+        reducer,
         middleware: (getDefaultMiddleware) =>
           getDefaultMiddleware({
             thunk: {
@@ -426,10 +385,7 @@ describe('Async actions', () => {
       mockApi.onPost('/login').reply(200, mockAuthInfo);
 
       const store = configureStore({
-        reducer: {
-          data: (state = { allOffers: [], places: [], city: mockCity, isLoading: false, currentOffer: null, nearbyOffers: [], comments: [], isOfferLoading: false }) => state,
-          user: (state = { authorizationStatus: 'UNKNOWN' as const, user: null }) => state,
-        },
+        reducer,
         middleware: (getDefaultMiddleware) =>
           getDefaultMiddleware({
             thunk: {
@@ -448,10 +404,7 @@ describe('Async actions', () => {
       mockApi.onPost('/login').reply(401);
 
       const store = configureStore({
-        reducer: {
-          data: (state = { allOffers: [], places: [], city: mockCity, isLoading: false, currentOffer: null, nearbyOffers: [], comments: [], isOfferLoading: false }) => state,
-          user: (state = { authorizationStatus: 'UNKNOWN' as const, user: null }) => state,
-        },
+        reducer,
         middleware: (getDefaultMiddleware) =>
           getDefaultMiddleware({
             thunk: {
